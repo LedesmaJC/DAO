@@ -1,22 +1,71 @@
 import sqlite3
-import VentanaRegAutor as vent
-
-# Iniciar la ventana y capturar los datos
-vent.iniciar_ventana()
-datos_form = vent.enviar_datos()
 
 # Conectar a la base de datos
-connection = sqlite3.connect('TPI_DAO.db')
-cursor = connection.cursor()
+def conectar_base_datos():
+    try:
+        connection = sqlite3.connect('TPI_DAO.db')
+        return connection
+    except sqlite3.Error as e:
+        print(f"Error al conectar a la base de datos: {e}")
+        return None
 
-# Insertar datos
-try:
-    cursor.execute("INSERT INTO autores (nombre, apellido, nacionalidad) VALUES (?, ?, ?)",
-                   (datos_form.nombre, datos_form.apellido, datos_form.nacionalidad))
-    connection.commit()
-    print("Transacción completada")
-except Exception as e:
-    print(f"Ocurrió un error: {e}")
-finally:
-    cursor.close()
-    connection.close()
+# Guardar los datos del autor en la base de datos
+def guardar_autor(autor):
+    conexion = conectar_base_datos()
+    if conexion:
+        try:
+            cursor = conexion.cursor()
+            cursor.execute(
+                """
+                INSERT INTO autores (nombre, apellido, nacionalidad)
+                VALUES (?, ?, ?)
+                """, 
+                (autor.nombre, autor.apellido, autor.nacionalidad)
+            )
+            conexion.commit()
+            print("Autor guardado correctamente.")
+        except sqlite3.Error as e:
+            print(f"Error durante la inserción: {e}")
+        finally:
+            cursor.close()
+            conexion.close()
+    else:
+        print("No se pudo realizar la operación por problemas de conexión.")
+        
+# Obtener todos los autores para el Combobox
+def obtener_autores():
+    conexion = conectar_base_datos()
+    if conexion:
+        try:
+            cursor = conexion.cursor()
+            cursor.execute("SELECT id, nombre, apellido FROM autores")
+            autores = cursor.fetchall()  # Retorna una lista de tuplas (id, nombre, apellido)
+            return autores
+        except sqlite3.Error as e:
+            print(f"Error al obtener autores: {e}")
+        finally:
+            cursor.close()
+            conexion.close()
+    return []
+
+
+
+# Obtener el ID del autor basado en el nombre completo
+def obtener_id_autor(nombre_completo):
+    conexion = conectar_base_datos()
+    if conexion:
+        try:
+            cursor = conexion.cursor()
+            nombre, apellido = nombre_completo.split(" ")  # Asumiendo que el nombre está en formato "Nombre Apellido"
+            cursor.execute("SELECT id FROM autores WHERE nombre=? AND apellido=?", (nombre, apellido))
+            resultado = cursor.fetchone()
+            return resultado[0] if resultado else None
+        except sqlite3.Error as e:
+            print(f"Error al obtener el ID del autor: {e}")
+            return None
+        finally:
+            cursor.close()
+            conexion.close()
+    return None
+
+
