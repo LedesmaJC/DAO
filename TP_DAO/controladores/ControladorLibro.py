@@ -3,7 +3,7 @@ import sqlite3
 # Conectar a la base de datos
 def conectar_base_datos():
     try:
-        connection = sqlite3.connect('TPI_DAO.db')
+        connection = sqlite3.connect('datos/TPI_DAO.db')
         return connection
     except sqlite3.Error as e:
         print(f"Error al conectar a la base de datos: {e}")
@@ -17,10 +17,10 @@ def guardar_libro(libro):
             cursor = conexion.cursor()
             cursor.execute(
                 """
-                INSERT INTO libros (isbn, titulo, genero, anio_publicacion, autor, stock)
-                VALUES (?, ?, ?, ? , ?, ?)
+                INSERT INTO libros (isbn, titulo, genero, anio_publicacion, autor, stock, disponible)
+                VALUES (?, ?, ?, ? , ?, ?, ?)
                 """, 
-                (libro.isbn, libro.titulo, libro.genero, libro.anioPublicacion, libro.autor, libro.stock)
+                (libro.isbn, libro.titulo, libro.genero, libro.anioPublicacion, libro.autor, libro.stock, libro.disponible)
             )
             conexion.commit()
             print("Libro guardado correctamente.")

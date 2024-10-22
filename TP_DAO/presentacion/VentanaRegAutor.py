@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import font
-from Autor import Autor
-import ControladorAutor as c_a
+from entidades.Autor import Autor
+from controladores import ControladorAutor as c_a
 
 # Función para capturar los datos y enviarlos al controlador
 def enviar_datos():
