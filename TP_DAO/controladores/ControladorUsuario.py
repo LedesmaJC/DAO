@@ -9,6 +9,44 @@ def conectar_base_datos():
         print(f"Error al conectar a la base de datos: {e}")
         return None
 
+# Obtener todos los usuarios de la base de datos
+def obtener_usuarios():
+    conexion = conectar_base_datos()
+    if conexion:
+        try:
+            cursor = conexion.cursor()
+            cursor.execute("SELECT * FROM usuarios")  
+            usuarios = cursor.fetchall()  
+            return usuarios
+        except sqlite3.Error as e:
+            print(f"Error al obtener usuarios: {e}")
+            return []
+        finally:
+            cursor.close()
+            conexion.close()
+    else:
+        print("No se pudo conectar a la base de datos.")
+        return []
+    
+def obtener_usuarios_validados():
+    conexion = conectar_base_datos()
+    if conexion:
+        try:
+            cursor = conexion.cursor()
+            cursor.execute("SELECT * FROM usuarios WHERE (tipo = 'Estudiante' AND ")  
+            usuarios = cursor.fetchall()  
+            return usuarios
+        except sqlite3.Error as e:
+            print(f"Error al obtener usuarios: {e}")
+            return []
+        finally:
+            cursor.close()
+            conexion.close()
+    else:
+        print("No se pudo conectar a la base de datos.")
+        return []
+
+
 # Guardar los datos del usuario en la base de datos
 def guardar_usuario(usuario):
     conexion = conectar_base_datos()

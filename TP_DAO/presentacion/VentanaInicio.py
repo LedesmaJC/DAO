@@ -4,6 +4,8 @@ from presentacion import VentanaRegAutor as v_a
 from presentacion import VentanaRegistrarLibro as v_l
 from presentacion import VentanaRegUsuario as v_u
 from presentacion import VentanaConsultaLibros as v_c
+from presentacion import VentanaRegPrestamo as v_p
+
 
 # Función para salir de la aplicación
 def salir_aplicacion():
@@ -74,7 +76,20 @@ def iniciar_ventana_inicio():
         pady=10,
         font=fuente_botones
     )
-    boton_registrar_usuario.grid(row=1, column=1, padx=10, pady=10)  
+    boton_registrar_usuario.grid(row=1, column=1, padx=10, pady=10) 
+    
+    boton_registrar_prestamo = tk.Button(
+        frame_botones,
+        text="Registrar Prestamo",
+        command=v_p.iniciar_ventana_prestamo,
+        bg="#1E88E5",
+        fg="black",
+        padx=20,
+        pady=10,
+        font=fuente_botones
+    )
+    boton_registrar_prestamo.grid(row=1, column=2, padx=10, pady=10)  
+ 
 
     # Botón para salir
     boton_salir = tk.Button(

@@ -30,6 +30,8 @@ def consultar_libros_disponibles():
             conexion.close()
     else:
         raise Exception("No se pudo realizar la operación por problemas de conexión.")
+    
+    
 
 
 # Guardar los datos del libro en la base de datos
