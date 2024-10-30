@@ -5,6 +5,7 @@ from presentacion import VentanaRegistrarLibro as v_l
 from presentacion import VentanaRegUsuario as v_u
 from presentacion import VentanaConsultaLibros as v_c
 from presentacion import VentanaRegPrestamo as v_p
+from presentacion import VentanaDevolucion as v_d
 
 
 # Función para salir de la aplicación
@@ -89,6 +90,18 @@ def iniciar_ventana_inicio():
         font=fuente_botones
     )
     boton_registrar_prestamo.grid(row=1, column=2, padx=10, pady=10)  
+    
+    boton_registrar_devolucion = tk.Button(
+        frame_botones,
+        text="Registrar Devolución",
+        command=v_d.iniciar_ventana_devolucion,
+        bg="#1E88E5",
+        fg="black",
+        padx=20,
+        pady=10,
+        font=fuente_botones
+    )
+    boton_registrar_devolucion.grid(row=0, column=2, padx=10, pady=10)  
  
 
     # Botón para salir
