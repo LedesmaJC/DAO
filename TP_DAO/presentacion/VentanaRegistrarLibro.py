@@ -14,8 +14,7 @@ def enviar_datos():
 
     if isbn and titulo and genero and anioPublicacion and stock:
         autor_id = combobox_autor.get()  # Obtiene el ID del autor seleccionado
-        disponible =  combobox_disponible.get()
-        libro = Libro(isbn, titulo, genero, anioPublicacion, autor_id, stock, disponible)
+        libro = Libro(isbn, titulo, genero, anioPublicacion, autor_id, stock)
 
         try:
             c_l.guardar_libro(libro)
@@ -36,14 +35,13 @@ def limpiar_campos():
     entry_anioPublicacion.delete(0, tk.END)
     combobox_autor.set('')  # Limpiar el Combobox
     entry_stock.delete(0, tk.END)
-    combobox_disponible.delete(0, tk.END)
 
 # Función para cerrar la ventana
 def salir():
     ventana.destroy()
 
 def iniciar_ventana():
-    global entry_isbn, entry_titulo, entry_genero, entry_anioPublicacion, entry_stock, combobox_autor, ventana, lbl_validacion,  combobox_disponible
+    global entry_isbn, entry_titulo, entry_genero, entry_anioPublicacion, entry_stock, combobox_autor, ventana, lbl_validacion
 
     # Crear la ventana
     ventana = tk.Tk()
@@ -101,27 +99,17 @@ def iniciar_ventana():
     entry_stock = tk.Entry(frame, font=fuente_entry, width=25, bd=2, relief="groove")
     entry_stock.grid(row=6, column=1, pady=8)
     
-    # Disponible
-    tk.Label(frame, text="Disponible:", font=fuente_label, bg="#FFFFFF", fg="#666666").grid(row=7, column=0, sticky="e", padx=10, pady=8)
-
-    # Lista de tipos de usuarios ("SI" y "NO")
-    dispo = ['SI', 'NO']  
-
-    combobox_disponible = ttk.Combobox(frame, values=dispo, font=fuente_entry, width=23, state="readonly")
-    combobox_disponible.grid(row=7, column=1, pady=8)
-    combobox_disponible.set('')  # Limpiar el Combobox al inicio
-
     # Botón enviar
     boton_enviar = tk.Button(frame, text="Enviar", command=enviar_datos,
                              bg="#4CAF50", fg="white", padx=15, pady=5, font=fuente_label, relief="raised", bd=3)
-    boton_enviar.grid(row=8, column=0, columnspan=2, pady=10)
+    boton_enviar.grid(row=7, column=0, columnspan=2, pady=10)
 
     # Botón salir
     boton_salir = tk.Button(frame, text="Salir", command=salir, bg="#f44336", fg="white", padx=15, pady=5, font=fuente_label, relief="raised", bd=3)
-    boton_salir.grid(row=9, column=0, columnspan=2, pady=10)
+    boton_salir.grid(row=8, column=0, columnspan=2, pady=10)
      
      # Etiquetas de validacion
     lbl_validacion = tk.Label(frame, text="", font=fuente_label, bg="#FFFFFF", fg="red")
-    lbl_validacion.grid(row=10, column=0, columnspan=2, pady=10)
+    lbl_validacion.grid(row=9, column=0, columnspan=2, pady=10)
 
     ventana.mainloop()

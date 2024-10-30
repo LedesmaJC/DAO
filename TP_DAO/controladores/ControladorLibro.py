@@ -16,7 +16,7 @@ def consultar_libros_disponibles():
             cursor = conexion.cursor()
             cursor.execute(
                 """
-                SELECT * FROM libros WHERE disponible = 'SI'
+                SELECT * FROM libros WHERE stock > 0
                 """ 
             )
             libros_disponibles = cursor.fetchall()  # Obtener todos los resultados
@@ -42,10 +42,10 @@ def guardar_libro(libro):
             cursor = conexion.cursor()
             cursor.execute(
                 """
-                INSERT INTO libros (isbn, titulo, genero, anio_publicacion, autor, stock, disponible)
-                VALUES (?, ?, ?, ? , ?, ?, ?)
+                INSERT INTO libros (isbn, titulo, genero, anio_publicacion, autor, stock)
+                VALUES (?, ?, ?, ? , ?, ?)
                 """, 
-                (libro.isbn, libro.titulo, libro.genero, libro.anioPublicacion, libro.autor, libro.stock, libro.disponible)
+                (libro.isbn, libro.titulo, libro.genero, libro.anioPublicacion, libro.autor, libro.stock)
             )
             conexion.commit()
             print("Libro guardado correctamente.")
