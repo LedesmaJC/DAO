@@ -1,22 +1,18 @@
 import sqlite3
+from datos.DBConnection import DBConnection
 
-# Conectar a la base de datos
-def conectar_base_datos():
-    try:
-        connection = sqlite3.connect('datos/TPI_DAO.db')
-        return connection
-    except sqlite3.Error as e:
-        print(f"Error al conectar a la base de datos: {e}")
-        return None
-    
-import sqlite3
+# Instanciamos el singleton
+db = DBConnection('datos/TPI_DAO.db')
+
+# Obtenemos la conexión
+connection = db.get_connection()
 
 # Guardar los datos del prestamo en la base de datos
 def prestar(prestamo):
-    conexion = conectar_base_datos()
-    if conexion:
+    if connection:
+        cursor = None
         try:
-            cursor = conexion.cursor()
+            cursor = connection.cursor()
 
             # Insertar préstamo en la tabla prestamos
             cursor.execute(
@@ -44,24 +40,24 @@ def prestar(prestamo):
                     (prestamo.libro,)
                 )
 
-            conexion.commit()
+            connection.commit()
             print("Préstamo registrado y stock actualizado correctamente.")
         except sqlite3.IntegrityError as e:
             raise Exception("Error durante la inserción: " + str(e))  # Lanza la excepción para manejar en la GUI
         except sqlite3.Error as e:
             raise Exception("Error durante la inserción: " + str(e))  # Lanza la excepción para manejar en la GUI
         finally:
-            cursor.close()
-            conexion.close()
+            if cursor:  # Solo cerramos el cursor si fue creado
+                cursor.close()
     else:
         raise Exception("No se pudo realizar la operación por problemas de conexión.")
 
 # Registrar la devolución y actualizar el stock
 def devolver(prestamo, f_dev, obs):
-    conexion = conectar_base_datos()
-    if conexion:
+    if connection:
+        cursor = None
         try:
-            cursor = conexion.cursor()
+            cursor = connection.cursor()
 
             # Primero obtenemos el libro asociado al préstamo
             cursor.execute(
@@ -98,7 +94,7 @@ def devolver(prestamo, f_dev, obs):
                         """,
                         (libro_id[0],)
                     )
-                conexion.commit()
+                connection.commit()
                 print("Devolución registrada y stock actualizado correctamente.")
             else:
                 raise Exception("No se encontró el libro asociado al préstamo.")
@@ -107,16 +103,16 @@ def devolver(prestamo, f_dev, obs):
         except sqlite3.Error as e:
             raise Exception("Error durante la inserción: " + str(e))  # Lanza la excepción para manejar en la GUI
         finally:
-            cursor.close()
-            conexion.close()
+            if cursor:  # Solo cerramos el cursor si fue creado
+                cursor.close()
     else:
         raise Exception("No se pudo realizar la operación por problemas de conexión.")
 
 def buscar():
-    conexion = conectar_base_datos()
-    if conexion:
+    if connection:
+        cursor = None
         try:
-            cursor = conexion.cursor()
+            cursor = connection.cursor()
             cursor.execute("SELECT * FROM prestamos WHERE f_devolucion_real is NULL")
             prestamos = cursor.fetchall()
             
@@ -138,7 +134,7 @@ def buscar():
         except sqlite3.Error as e:
             raise Exception("Error durante la búsqueda: " + str(e))  # Lanza la excepción para manejar en la GUI
         finally:
-            cursor.close()
-            conexion.close()
+            if cursor:  # Solo cerramos el cursor si fue creado
+                cursor.close()
     else:
         raise Exception("No se pudo realizar la operación por problemas de conexión.")
