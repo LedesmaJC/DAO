@@ -6,6 +6,7 @@ from presentacion import VentanaRegUsuario as v_u
 from presentacion import VentanaConsultaLibros as v_c
 from presentacion import VentanaRegPrestamo as v_p
 from presentacion import VentanaDevolucion as v_d
+from presentacion import VentanaReportes as v_r
 
 
 # Función para salir de la aplicación
@@ -18,7 +19,7 @@ def iniciar_ventana_inicio():
     global ventana_inicio
     ventana_inicio = tk.Tk()
     ventana_inicio.title("Sistema de Gestión de Librería")
-    ventana_inicio.geometry("600x600")
+    ventana_inicio.geometry("800x600")
 
     # Estilos
     fuente_titulo = font.Font(family="Helvetica", size=16, weight="bold")
@@ -101,7 +102,19 @@ def iniciar_ventana_inicio():
         pady=10,
         font=fuente_botones
     )
-    boton_registrar_devolucion.grid(row=0, column=2, padx=10, pady=10)  
+    boton_registrar_devolucion.grid(row=0, column=2, padx=10, pady=10)
+    
+    boton_reportes = tk.Button(
+        frame_botones,
+        text="Reportes",
+        command=v_r.iniciar_ventana,
+        bg="#1E88E5",
+        fg="black",
+        padx=20,
+        pady=10,
+        font=fuente_botones
+    )
+    boton_reportes.grid(row=0, column=3, padx=10, pady=10)   
  
 
     # Botón para salir
