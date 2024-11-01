@@ -107,7 +107,6 @@ def devolver(prestamo_id, f_dev: str, obs: str):
         except sqlite3.Error as e:
             raise Exception("Error durante la inserción: " + str(e))
 
-#Busca los que no estan devueltos en realidad
 def buscar_id(id):
     if connection:
         cursor = None
@@ -174,7 +173,6 @@ def buscar():
                 cursor.close()
     else:
         raise Exception("No se pudo realizar la operación por problemas de conexión.")
-
 def buscar_todos():
     if connection:
         cursor = None
@@ -210,7 +208,7 @@ def buscar_todos():
     else:
         raise Exception("No se pudo realizar la operación por problemas de conexión.")
 
-    
+   
 def buscar_vencidos():
     # Obtener la fecha actual
     fecha_actual = date.today()

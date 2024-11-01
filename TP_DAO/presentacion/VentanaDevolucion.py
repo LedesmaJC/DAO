@@ -64,7 +64,7 @@ def iniciar_ventana_devolucion():
     tk.Label(frame, text="Préstamos:", font=fuente_label, bg="#FFFFFF", fg="#666666").grid(row=1, column=0, sticky="e", padx=10, pady=8)
     
     prestamos = c_p.buscar() 
-    id_prestamos = [f"{prestamo.id} {prestamo.usuario} {prestamo.libro}" for prestamo in prestamos]
+    id_prestamos = [f"{prestamo.id} - {prestamo.usuario} - {prestamo.libro}" for prestamo in prestamos]
     combobox_prestamos = ttk.Combobox(frame, values=id_prestamos, font=fuente_entry, width=23, state="readonly")
     combobox_prestamos.grid(row=1, column=1, pady=8)
 

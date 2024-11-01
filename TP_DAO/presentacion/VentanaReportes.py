@@ -10,17 +10,57 @@ def iniciar_reporte():
     opcion = combobox_reporte.get()
     if opcion == "Reporte 1":
         iniciar_ventana_rep_uno()
-import tkinter as tk
-from tkinter import ttk, font
-from datetime import date
+    elif opcion == "Reporte 2":
+        iniciar_ventana_rep_dos()
+    elif opcion == "Reporte 3":
+        iniciar_ventana_rep_tres()
+        
+def iniciar_ventana_rep_dos():
+    pass
 
-import tkinter as tk
-from tkinter import ttk, font
-from datetime import date
+def iniciar_ventana_rep_tres():
+    global lbl_validacion_uno, entry_parametro
+    # Crear la ventana
+    ventana_tres = tk.Tk()
+    ventana_tres.title("Reporte de Usuarios")
+    ventana_tres.geometry("600x500")  # Tamaño ajustado para una mejor visualización
+    ventana_tres.configure(bg="#F0F4F8")  # Fondo más suave
+    
+    # Fuente para encabezados
+    fuente_encabezado = font.Font(family="Helvetica", size=10, weight="bold")
+    fuente_titulo = font.Font(family="Helvetica", size=16, weight="bold")
+    fuente_label = font.Font(family="Arial", size=11)
+    fuente_entry = font.Font(family="Arial", size=10)
+    # Frame para el contenido con mayor espacio y borde redondeado
+    frame = tk.Frame(ventana_tres, padx=20, pady=20, bg="#FFFFFF", relief="solid", bd=2)
+    frame.pack(pady=20, padx=10, fill="both", expand=True)
+    
+    # Leyenda
+    label_titulo = tk.Label(frame, text="Reporte de usuarios con mas préstamos, a partir de un valor de parámetro", font=fuente_titulo, bg="#FFFFFF", fg="#333333")
+    label_titulo.grid(row=0, column=0, columnspan=2, pady=(0, 15))
+    
+    # Valor de parametro
+    tk.Label(frame, text="Valor parámetro:", font=fuente_label, bg="#FFFFFF", fg="#666666").grid(row=1, column=0, sticky="e", padx=10, pady=8)
+    entry_parametro = tk.Entry(frame, font=fuente_entry, width=25, bd=2, relief="groove")
+    entry_parametro.grid(row=1, column=1, pady=8)
 
-import tkinter as tk
-from tkinter import ttk, font
-from datetime import date
+    # Crear frame para botones
+    frame_botones = tk.Frame(ventana_tres, bg="#F0F4F8")
+    frame_botones.pack(pady=10)
+
+    # Botón Generar Reporte
+    boton_salir = tk.Button(frame_botones, text="Generar Reporte", command=lambda: c_r.reporte_tres(entry_parametro.get()), bg="#f44336", fg="white", padx=20, pady=10, font=font.Font(size=10, weight="bold"), relief="raised", bd=3)
+    boton_salir.grid(row=2, column=0, padx=10)
+
+    # Botón salir
+    boton_salir = tk.Button(frame_botones, text="Salir", command=ventana_tres.destroy, bg="#f44336", fg="white", padx=20, pady=10, font=font.Font(size=10, weight="bold"), relief="raised", bd=3)
+    boton_salir.grid(row=2, column=1, padx=10)
+
+    # Etiqueta de validación para mostrar mensajes adicionales
+    lbl_validacion_uno = tk.Label(frame_botones, text="", font=font.Font(size=10), bg="#F0F4F8", fg="red")
+    lbl_validacion_uno.grid(row=3, column=0, pady=10)
+
+    ventana_tres.mainloop()
 
 def iniciar_ventana_rep_uno():
     global lbl_validacion_uno
@@ -122,8 +162,6 @@ def iniciar_ventana_rep_uno():
     lbl_validacion_uno.grid(row=1, column=0, pady=10)
 
     ventana_uno.mainloop()
-
-
 
 def salir():
     ventana.destroy()

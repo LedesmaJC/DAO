@@ -1,4 +1,5 @@
 import sqlite3
+from entidades.Usuario import Usuario
 
 from datos.DBConnection import DBConnection
 
@@ -14,8 +15,20 @@ def obtener_usuarios():
         try:
             cursor = connection.cursor()
             cursor.execute("SELECT * FROM usuarios")  
-            usuarios = cursor.fetchall()  
-            return usuarios
+            usuarios = cursor.fetchall()
+            if usuarios:
+                lista_usuarios = []
+                for usuario in usuarios:
+                    u = Usuario(
+                        nombre = usuario[1], 
+                        apellido= usuario[2], 
+                        tipo= usuario[3], 
+                        direccion= usuario[4], 
+                        telefono= usuario[5]
+                    )
+                    u.id= usuario[0]
+                    lista_usuarios.append(u)
+            return lista_usuarios
         except sqlite3.Error as e:
             print(f"Error al obtener usuarios: {e}")
             return []
@@ -26,24 +39,6 @@ def obtener_usuarios():
         print("No se pudo conectar a la base de datos.")
         return []
     
-def obtener_usuarios_validados():
-    if connection:
-        cursor = None
-        try:
-            cursor = connection.cursor()
-            cursor.execute("SELECT * FROM usuarios WHERE (tipo = 'Estudiante' AND ")  
-            usuarios = cursor.fetchall()  
-            return usuarios
-        except sqlite3.Error as e:
-            print(f"Error al obtener usuarios: {e}")
-            return []
-        finally:
-            if cursor:  # Solo cerramos el cursor si fue creado
-                cursor.close()
-    else:
-        print("No se pudo conectar a la base de datos.")
-        return []
-
 
 # Guardar los datos del usuario en la base de datos
 def guardar_usuario(usuario):

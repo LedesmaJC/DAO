@@ -63,8 +63,8 @@ def iniciar_ventana_prestamo():
     # Usuario
     tk.Label(frame, text="Usuario:", font=fuente_label, bg="#FFFFFF", fg="#666666").grid(row=1, column=0, sticky="e", padx=10, pady=8)
     
-    usuarios = c_u.obtener_usuarios()  # Devuelve una lista de tuplas con los datos de los usuarios
-    nombres_usuarios = [f"{usuario[1]} {usuario[2]}" for usuario in usuarios]  
+    usuarios = c_u.obtener_usuarios()
+    nombres_usuarios = [f"{usuario.nombre} {usuario.apellido}" for usuario in usuarios]  
     
     combobox_usuarios = ttk.Combobox(frame, values=nombres_usuarios, font=fuente_entry, width=23, state="readonly")
     combobox_usuarios.grid(row=1, column=1, pady=8)
