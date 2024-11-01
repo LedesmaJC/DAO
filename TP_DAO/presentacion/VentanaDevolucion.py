@@ -21,13 +21,20 @@ def enviar_devolucion():
         return  # Salir de la función si falta información
 
     try:
-            id_prestamo = int(prestamo_seleccionado.split()[0])  # Suponiendo que el ID está al principio
+        id_prestamo = int(prestamo_seleccionado.split()[0])  # Suponiendo que el ID está al principio
+        print(f"ID del préstamo seleccionado: {id_prestamo}")  # Mensaje de depuración
 
-            c_p.devolver(id_prestamo, f_devolucion_real, observacion)
-            limpiar_campos()
-            lbl_validacion.config(text="Devolución registrada correctamente.", fg="green")
+        # Aquí podrías consultar si el préstamo tiene un libro asociado
+        prestamo = c_p.buscar_id(id_prestamo)  
+        if prestamo is None or prestamo.libro is None:
+            raise Exception("No se encontró el libro asociado al préstamo.")
+
+        c_p.devolver(id_prestamo, f_devolucion_real, observacion)
+        limpiar_campos()
+        lbl_validacion.config(text="Devolución registrada correctamente.", fg="green")
     except Exception as e:
         lbl_validacion.config(text=f"Error: {str(e)}", fg="red")
+
 def limpiar_campos():
     combobox_prestamos.set('')
     entry_observacion.delete(0, tk.END)
@@ -57,7 +64,7 @@ def iniciar_ventana_devolucion():
     tk.Label(frame, text="Préstamos:", font=fuente_label, bg="#FFFFFF", fg="#666666").grid(row=1, column=0, sticky="e", padx=10, pady=8)
     
     prestamos = c_p.buscar() 
-    id_prestamos = [f"{prestamo['id']} {prestamo['usuario']} {prestamo['libro']}" for prestamo in prestamos]
+    id_prestamos = [f"{prestamo.id} {prestamo.usuario} {prestamo.libro}" for prestamo in prestamos]
     combobox_prestamos = ttk.Combobox(frame, values=id_prestamos, font=fuente_entry, width=23, state="readonly")
     combobox_prestamos.grid(row=1, column=1, pady=8)
 

@@ -1,4 +1,5 @@
 class Prestamo:
+        
     def __init__(self, usuario , libro, f_prestamo, f_devolucion_estimada):
         self.id = 0
         self.usuario = usuario
